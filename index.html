@@ -1,0 +1,1608 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillBridge AI - Bridging Gen-Z Talent</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              500: '#0284c7', // Slate / Brand color
+              600: '#2563eb', // Blue-600
+              700: '#1d4ed8'
+            }
+          },
+          fontFamily: {
+            sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/css">
+    /* Extra subtle glass and background grids */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .dark .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+    }
+    /* Simple smooth animations for rotation and tabs */
+    .fade-transition {
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+    /* Hide scrollbar for path selection */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-slate-950 dark:text-gray-100 transition-colors duration-300 font-sans leading-relaxed">
+
+  <!-- Floating Receipt Banner & Alert Notifications -->
+  <div id="toast-notification" class="fixed top-5 right-5 z-50 bg-emerald-600 text-white px-5 py-3.5 rounded-xl shadow-xl flex items-center space-x-3 transition-opacity duration-300 opacity-0 pointer-events-none text-sm">
+    <span id="toast-icon">✓</span>
+    <span id="toast-message">Success! Dynamic counter updated.</span>
+  </div>
+
+  <!-- Header Section -->
+  <header class="sticky top-0 z-40 w-full bg-white/80 dark:bg-slate-900/85 backdrop-blur border-b border-gray-200 dark:border-slate-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center space-x-2.5">
+        <div class="bg-brand-600 text-white rounded-lg p-1.5 flex items-center justify-center">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+        <div class="flex flex-col text-left">
+          <span class="font-bold text-base tracking-tight text-gray-900 dark:text-white">SkillBridge <span class="text-blue-600">AI</span></span>
+          <span class="font-mono text-[9px] tracking-wider text-gray-400 dark:text-gray-500 uppercase">Bridging Gen-Z Talent</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links (Desktop) -->
+      <nav class="hidden md:flex items-center space-x-6 text-xs sm:text-sm font-medium">
+        <a href="#about" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">About</a>
+        <a href="#features" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">Features</a>
+        <a href="#opportunities" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">Opportunities</a>
+        <a href="#mentors" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">Mentors</a>
+        <a href="#pricing" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">Pricing</a>
+        <a href="#faq" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">FAQ</a>
+        <a href="#contact" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400 transition-colors">Partnerships</a>
+      </nav>
+
+      <!-- Right Nav Control desk -->
+      <div class="flex items-center space-x-3">
+        <!-- Live Pledge Badge (Navbar Indicator) -->
+        <div class="bg-gray-100 dark:bg-slate-800 text-slate-700 dark:text-gray-300 px-3 py-1 rounded-full text-[11px] font-semibold flex items-center space-x-1.5">
+          <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Pledged:</span>
+          <strong id="navbar-hours-badge" class="font-mono text-gray-900 dark:text-white">15,240</strong>
+          <span>hrs</span>
+        </div>
+
+        <!-- Dark/Light Mode Trigger -->
+        <button id="theme-toggle-btn" class="p-2 border border-gray-250 dark:border-slate-800 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-600 dark:text-gray-300 cursor-pointer" aria-label="Toggle Theme">
+          <!-- Sun Icon (default in light mode) -->
+          <svg id="sun-icon" class="h-4.5 w-4.5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M6.34 17.66l-1.41 1.41"/><path d="M19.07 4.93l-1.41 1.41"/></svg>
+          <!-- Moon Icon (shows in light mode to go dark) -->
+          <svg id="moon-icon" class="h-4.5 w-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-16 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto overflow-hidden">
+    <!-- Fluid background blurs -->
+    <div class="absolute top-1/4 left-1/10 w-72 h-72 bg-blue-400/10 dark:bg-blue-600/5 rounded-full blur-3xl -z-10"></div>
+    <div class="absolute top-1/3 right-1/10 w-96 h-96 bg-indigo-400/10 dark:bg-indigo-900/5 rounded-full blur-3xl -z-10"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Column: Copy & Actions -->
+      <div class="col-span-1 lg:col-span-7 space-y-6 text-left">
+        <div class="inline-flex items-center space-x-2 bg-blue-50 dark:bg-slate-900/80 border border-blue-100 dark:border-slate-800 rounded-full px-4 py-1.5">
+          <span class="flex h-2 w-2 relative">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-600"></span>
+          </span>
+          <span class="font-mono text-[10px] font-bold text-blue-600 dark:text-blue-400">ACTIVE COHORT 2026</span>
+        </div>
+
+        <h1 class="font-bold text-3xl sm:text-4xl md:text-5xl text-gray-900 dark:text-white leading-[1.15] tracking-tight">
+          Bridging Gen-Z Skills <br>
+          With <span class="text-blue-600 dark:text-blue-400">Real-World Action.</span>
+        </h1>
+
+        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-2xl">
+          SkillBridge AI is the modern hub uniting student builders, eager interns, sustainable NGOs, and high-growth startups. Access vetted projects, schedule premium 1:1 mentorship, and craft an automated, verifiable career path powered by AI assessment.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
+          <a href="#opportunities" class="px-6 py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-center shadow-lg transition-transform hover:-translate-y-0.5 text-sm">
+            Explore Active Projects
+          </a>
+          <a href="#features" class="px-6 py-3.5 bg-white hover:bg-gray-50 dark:bg-slate-900 dark:hover:bg-slate-800/80 text-gray-800 dark:text-gray-100 font-semibold rounded-xl border border-gray-250 dark:border-slate-800 text-center transition-transform hover:-translate-y-0.5 text-sm">
+            Launch AI Pathfinder
+          </a>
+        </div>
+
+        <!-- Trust seals -->
+        <div class="pt-4 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-gray-200 dark:border-slate-800">
+          <div class="flex items-center space-x-1.5">
+            <span class="text-emerald-500 font-bold">✓</span>
+            <span class="text-xs text-gray-500 dark:text-gray-450">100% Verified NGOs & Milestones</span>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <span class="text-red-500 font-bold">♥</span>
+            <span class="text-xs text-gray-500 dark:text-gray-450">Crowdsourced Social Impact</span>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <span class="text-blue-500 font-bold">★</span>
+            <span class="text-xs text-gray-500 dark:text-gray-450">Top Industry Mentors</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Matches Carousel & Impact Pledger -->
+      <div class="col-span-1 lg:col-span-5">
+        <div class="glass-card rounded-2xl p-6 border border-gray-200 dark:border-slate-800 shadow-md space-y-6">
+          
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 p-1.5 rounded-lg">
+                ⚡
+              </span>
+              <span class="text-xs font-bold uppercase tracking-wider text-gray-800 dark:text-gray-200 font-mono">
+                Autonomous AI Match Sync
+              </span>
+            </div>
+            <span class="bg-emerald-100 dark:bg-emerald-500/25 text-emerald-750 dark:text-emerald-405 text-[10px] font-mono px-2 py-0.5 rounded-full uppercase animate-pulse">
+              Live
+            </span>
+          </div>
+
+          <!-- Matching Display Portal -->
+          <div class="bg-slate-950 rounded-xl p-5 border border-slate-800 text-left font-mono text-xs text-slate-300 relative overflow-hidden h-36 flex flex-col justify-between">
+            <div id="match-pane" class="fade-transition space-y-4">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Pledge Your Volunteer Hours Form -->
+          <div class="border-t border-gray-100 dark:border-slate-800/80 pt-5 text-left">
+            <h3 class="font-bold text-sm text-gray-900 dark:text-white flex items-center space-x-1.5 mb-1">
+              <span>Impact Hours Pledge Booster</span>
+            </h3>
+            <p class="text-[11px] text-gray-500 dark:text-gray-400 mb-4 leading-normal">
+              Students globally commit volunteer energy. Corporations provide stipend matching. Add your hours to recalculate immediate global dashboard values!
+            </p>
+
+            <form id="pledge-form" class="flex gap-2">
+              <div class="flex-1 min-w-[100px] relative">
+                <input
+                  type="number"
+                  id="pledge-hours-input"
+                  min="1"
+                  max="100"
+                  value="5"
+                  class="w-full bg-gray-50 dark:bg-slate-900 rounded-lg px-3 py-2 text-xs text-gray-900 dark:text-white border border-gray-200 dark:border-slate-800 focus:outline-none focus:border-blue-500 font-semibold"
+                >
+                <span class="absolute right-3.5 top-2.5 text-[10px] font-mono text-gray-400">hours</span>
+              </div>
+              <button
+                type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs px-4 py-2 rounded-lg transition-colors cursor-pointer"
+              >
+                Pledge Hours
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Impact Statistics Counter Dashboard -->
+  <section class="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white dark:bg-slate-900/60 rounded-2xl p-6 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center border border-gray-200 dark:border-slate-850 shadow-sm">
+      
+      <div class="space-y-1 border-r border-gray-150 dark:border-slate-800 last:border-r-0">
+        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white" id="stat-students">
+          24,850
+        </div>
+        <p class="font-mono text-[9px] uppercase tracking-wider text-gray-505 dark:text-gray-400 font-semibold">
+          Students Connected
+        </p>
+      </div>
+
+      <div class="space-y-1 border-r border-gray-150 dark:border-slate-800 lg:border-r last:border-r-0">
+        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white" id="stat-projects">
+          1,420
+        </div>
+        <p class="font-mono text-[9px] uppercase tracking-wider text-gray-550 dark:text-gray-400 font-semibold">
+          Projects Completed
+        </p>
+      </div>
+
+      <div class="space-y-1 border-r border-gray-150 dark:border-slate-800 last:border-r-0">
+        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white" id="stat-ngos">
+          380
+        </div>
+        <p class="font-mono text-[9px] uppercase tracking-wider text-gray-505 dark:text-gray-400 font-semibold">
+          NGOs Supported
+        </p>
+      </div>
+
+      <div class="space-y-1 last:border-r-0">
+        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white" id="stat-mentors">
+          640
+        </div>
+        <p class="font-mono text-[9px] uppercase tracking-wider text-gray-505 dark:text-gray-400 font-semibold">
+          Mentors Registered
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-left scroll-mt-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      
+      <div class="space-y-5">
+        <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider block">
+          Our Charter
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+          Empowering Next-Gen Builders Through Practical Ecosystems
+        </h2>
+        <p class="text-[13px] sm:text-sm text-gray-600 dark:text-gray-300">
+          Standard universities focus heavily on theoretical textbooks, while NGOs and early-stage projects struggle to onboard high-potential technical creatives. We resolve this by providing real, pre-evaluated, action-based tasks.
+        </p>
+        <div class="space-y-3.5">
+          <div class="flex items-start gap-3">
+            <span class="h-5 w-5 bg-blue-100 dark:bg-slate-900 text-blue-600 rounded-full flex items-center justify-center font-bold text-xs">✓</span>
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-normal"><strong class="text-gray-950 dark:text-white">Milestone Verification:</strong> Completing tasks generates verified digital badges directly appended to student resumes.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="h-5 w-5 bg-blue-100 dark:bg-slate-900 text-blue-600 rounded-full flex items-center justify-center font-bold text-xs">✓</span>
+            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-normal"><strong class="text-gray-950 dark:text-white">Enterprise Sponsorship:</strong> Enterprise networks fund student volunteering placements, turning impact hours into live professional stipends.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action timeline steps card -->
+      <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-gray-200 dark:border-slate-800 space-y-6">
+        <h3 class="font-bold text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-mono">
+          How SkillBridge Operates
+        </h3>
+        <div class="relative pl-6 border-l border-blue-500/30 space-y-6 text-xs sm:text-[13px]">
+          
+          <div class="relative">
+            <div class="absolute -left-[30px] top-0.5 h-4 w-4 bg-blue-600 rounded-full border-4 border-white dark:border-slate-900"></div>
+            <strong class="text-gray-950 dark:text-white">Step 1: Compute Career Pathfinder</strong>
+            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Select your desired vocational track and let AI assemble customizable task boards.</p>
+          </div>
+
+          <div class="relative">
+            <div class="absolute -left-[30px] top-0.5 h-4 w-4 bg-blue-600 rounded-full border-4 border-white dark:border-slate-900"></div>
+            <strong class="text-gray-950 dark:text-white">Step 2: Commit Stipend or Project Bounty</strong>
+            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Apply to targeted internships, voluntary NGO placements, or custom startup tasks.</p>
+          </div>
+
+          <div class="relative">
+            <div class="absolute -left-[30px] top-0.5 h-4 w-4 bg-blue-600 rounded-full border-4 border-white dark:border-slate-900"></div>
+            <strong class="text-gray-950 dark:text-white">Step 3: Gain Verified Badgeless Pedigree</strong>
+            <p class="text-gray-500 dark:text-gray-400 text-xs mt-1">Receive digital certificates directly on your public developer dashboard reviewed by senior staff.</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Features & Interactive AI Pathfinder -->
+  <section id="features" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-6 text-left">
+    
+    <!-- 6 Core Feature Pillars -->
+    <div class="mb-16">
+      <div class="max-w-2xl mb-8">
+        <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider block mb-1">
+          Features Center
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          Six Pillars of Next-Gen Collaboration
+        </h2>
+        <p class="text-[13px] sm:text-sm text-gray-650 dark:text-gray-305">
+          Everything is engineered into a unified matching portal that syncs live candidate data with open corporate parameters.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Feature cards with static indicators -->
+        <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800">
+          <div class="text-lg mb-2">🧠</div>
+          <h3 class="font-bold text-sm text-gray-900 dark:text-white mb-1">AI Career Guidance</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-normal">
+            Custom systems synthesize bespoke development roadmaps and matching job options depending on real-time market data.
+          </p>
+        </div>
+        <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800">
+          <div class="text-lg mb-2">💼</div>
+          <h3 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Internship Matchmaking</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-normal">
+            Fast-track applications to pre-screened technical roles complete with academic credit or corporate stipends.
+          </p>
+        </div>
+        <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800">
+          <div class="text-lg mb-2">♥</div>
+          <h3 class="font-bold text-sm text-gray-900 dark:text-white mb-1">NGO Social Impact</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-normal">
+            Donate technical prowess to sustainability efforts or community registries. Gain public impact certifications.
+          </p>
+        </div>
+        <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800">
+          <div class="text-lg mb-2">📈</div>
+          <h3 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Skill Milestones</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-normal">
+            Track certified portfolios step-by-step with secure verification backed by co-authoring organizations.
+          </p>
+        </div>
+        <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800">
+          <div class="text-lg mb-2">🤝</div>
+          <h3 class="font-bold text-sm text-gray-900 dark:text-white mb-1">1:1 Expert Mentors</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-normal">
+            Register and book timeslots for portfolio reviews and professional guidance with engineers at Google or Stripe.
+          </p>
+        </div>
+        <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800">
+          <div class="text-lg mb-2">🏷️</div>
+          <h3 class="font-bold text-sm text-gray-900 dark:text-white mb-1">Corporate Bounties</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-normal">
+            Claim standalone pilot projects or copywriting commissions with micro-stipends or secure referral vouchers.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Interactive Experience: Pathfinder -->
+    <div class="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border border-slate-800 relative overflow-hidden">
+      <div class="absolute right-0 top-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Interactive Pathfinder Selectors -->
+        <div class="col-span-1 lg:col-span-5 space-y-4">
+          <div class="inline-flex items-center space-x-1 bg-blue-500/10 border border-blue-500/20 text-blue-300 rounded-full px-3 py-1 font-mono text-[9px]">
+            <span>✨</span>
+            <span>LIVE INTERACTIVE ENGINE</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold leading-tight">
+            Activate Our <br>
+            <span class="text-blue-400">AI Career Pathfinder</span>
+          </h3>
+          <p class="text-xs text-gray-400">
+            Pick a vocations track, click the compute button below, and watch our artificial index structure realistic, checkable milestones with recommended assets.
+          </p>
+
+          <!-- Track Buttons -->
+          <div class="space-y-2 pt-1 font-semibold text-xs">
+            <button id="btn-track-ai" onclick="selectPathfinderTrack('ai')" class="w-full p-2.5 rounded-xl border border-blue-500 bg-blue-500/15 text-white flex items-center justify-between cursor-pointer">
+              <span>AI Engineering & Prompt Des.</span><span>🤖</span>
+            </button>
+            <button id="btn-track-design" onclick="selectPathfinderTrack('design')" class="w-full p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-gray-400 hover:text-white flex items-center justify-between cursor-pointer">
+              <span>Product Design (NGO Cause)</span><span>🎨</span>
+            </button>
+            <button id="btn-track-growth" onclick="selectPathfinderTrack('growth')" class="w-full p-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-gray-400 hover:text-white flex items-center justify-between cursor-pointer">
+              <span>Growth Marketing & B2B Copywriting</span><span>⚡</span>
+            </button>
+          </div>
+
+          <button id="btn-compute-pathfinder" onclick="triggerPathfinderCompute()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs transition-colors shadow">
+            Compute Personalized Roadmap
+          </button>
+        </div>
+
+        <!-- Simulated Terminal Output Console -->
+        <div id="pathfinder-console" class="col-span-1 lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl p-5 min-h-[290px] flex flex-col justify-between text-left font-mono text-xs">
+          <!-- Default State -->
+          <div id="pathfinder-default" class="m-auto text-center space-y-3">
+            <p class="text-[28px]">🧭</p>
+            <h4 class="font-bold text-gray-400 text-sm">System Standby</h4>
+            <p class="text-[10px] text-gray-500 max-w-sm mx-auto">
+              Select a target focus track on the left and dispatch the Compute command to activate evaluation routines.
+            </p>
+          </div>
+
+          <!-- Loading State -->
+          <div id="pathfinder-loading" class="hidden m-auto text-center space-y-3">
+            <div class="inline-block h-6 w-6 rounded-full border-2 border-blue-500 border-t-transparent animate-spin"></div>
+            <p id="pathfinder-loader-text" class="text-blue-400 text-[11px] uppercase tracking-wide">Initializing evaluation algorithms...</p>
+          </div>
+
+          <!-- Result State -->
+          <div id="pathfinder-result" class="hidden space-y-4">
+            <div>
+              <span class="text-emerald-400 text-[10px] font-bold">✓ SYNTHESIS SUCCESSFUL</span>
+              <h4 id="result-title" class="text-sm font-bold text-white mt-1">AI Specialist Track</h4>
+              <p id="result-sub" class="text-[10px] text-gray-400">Roadmap to career placement.</p>
+            </div>
+            
+            <!-- Milestones placeholder -->
+            <div id="result-milestones" class="space-y-2 border-t border-slate-900 pt-3">
+              <!-- Dynamically rendered -->
+            </div>
+
+            <!-- Pre-Approved Pairings advice -->
+            <div class="border-t border-slate-900 pt-3 grid grid-cols-2 gap-3 text-[10px]">
+              <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 text-left">
+                <span class="text-gray-500 uppercase font-bold text-[8px] block mb-0.5">Matched Advisor</span>
+                <span id="result-advisor" class="text-white font-medium block truncate">Dr. Evelyn Martinez</span>
+                <a href="#mentors" class="text-blue-400 hover:underline mt-0.5 inline-block font-sans font-bold">Schedule session →</a>
+              </div>
+              <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800 text-left">
+                <span class="text-gray-500 uppercase font-bold text-[8px] block mb-0.5">Open Alignment Spot</span>
+                <span id="result-alignment" class="text-white font-medium block truncate">AI Prompt Dev.</span>
+                <a href="#opportunities" class="text-blue-400 hover:underline mt-0.5 inline-block font-sans font-bold">Examine Listing →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Opportunities Board Segment -->
+  <section id="opportunities" class="py-16 bg-white dark:bg-slate-900 border-t border-b border-gray-150 dark:border-slate-800 scroll-mt-6 text-left">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Headers -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between items-start gap-4 mb-8">
+        <div class="max-w-xl">
+          <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider block mb-1">
+            Active Catalog
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+            Explore Open Collaborations & Bounties
+          </h2>
+          <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-405 leading-relaxed mt-1">
+            Apply with zero friction. Completed tasks generate live portfolio score factors, raising your algorithmic matchmaking rank for active career placements.
+          </p>
+        </div>
+        <!-- Status counter badge -->
+        <div class="bg-blue-50 dark:bg-slate-950 border border-blue-100 dark:border-slate-800 rounded-xl px-4 py-2.5">
+          <span class="text-[9px] font-mono uppercase text-gray-400 block tracking-wide">Filter Status</span>
+          <span class="text-sm font-bold text-gray-900 dark:text-white" id="listings-found-count">6 listings found</span>
+        </div>
+      </div>
+
+      <!-- Toolbar Search filters -->
+      <div class="bg-gray-50 dark:bg-slate-950 p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-slate-800 space-y-3 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+          
+          <div class="md:col-span-6 relative">
+            <input
+              type="text"
+              id="opps-search"
+              placeholder="Search by keywords, tags, or partner name..."
+              oninput="handleFilterChange()"
+              class="w-full bg-white dark:bg-slate-900 text-xs px-3.5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-800 text-gray-800 dark:text-white focus:outline-none focus:border-blue-500"
+            >
+          </div>
+
+          <div class="md:col-span-3">
+            <select
+              id="opps-category"
+              onchange="handleFilterChange()"
+              class="w-full bg-white dark:bg-slate-900 text-xs px-3.5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-800 text-gray-800 dark:text-white focus:outline-none focus:border-blue-500 cursor-pointer"
+            >
+              <option value="All">All Focus Tracks</option>
+              <option value="AI & Research">AI & Research</option>
+              <option value="NGO">NGO Placements</option>
+              <option value="Marketing">Growth & Writing</option>
+              <option value="Design">UI/UX Design</option>
+              <option value="Tech">General Tech Engineering</option>
+            </select>
+          </div>
+
+          <div class="md:col-span-3 flex bg-white dark:bg-slate-900 rounded-lg p-0.5 border border-gray-150 dark:border-slate-800 justify-between items-center text-[10px] font-bold">
+            <button onclick="setOppTypeTab('all')" id="btn-tab-all" class="flex-1 py-1 px-1.5 rounded text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-slate-800 cursor-pointer">All</button>
+            <button onclick="setOppTypeTab('internship')" id="btn-tab-int" class="flex-1 py-1 px-1.5 rounded text-gray-500 cursor-pointer">Intern</button>
+            <button onclick="setOppTypeTab('volunteering')" id="btn-tab-vol" class="flex-1 py-1 px-1.5 rounded text-gray-500 cursor-pointer">NGO</button>
+            <button onclick="setOppTypeTab('project')" id="btn-tab-proj" class="flex-1 py-1 px-1.5 rounded text-gray-500 cursor-pointer">Bounty</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Opportunities Lists Target -->
+      <div id="opps-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- JS builds cards dynamically -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Mentors Directory Segment -->
+  <section id="mentors" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-6 text-left">
+    
+    <div class="max-w-2xl mb-12">
+      <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider block mb-1">
+        Expert Sync
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+        Connect 1:1 with Global Industry Experts
+      </h2>
+      <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+        Receive direct portfolio audits, mock evaluations, and system design referrals from veterans at DeepMind, Stripe, and Humane. Book 100% sponsored 1:1 timeslots at zero cost.
+      </p>
+    </div>
+
+    <!-- Mentors Grid -->
+    <div id="mentors-grid-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Injected by JavaScript -->
+    </div>
+
+  </section>
+
+  <!-- Shared Application Modal Drawer -->
+  <div id="apply-modal" class="fixed inset-0 z-50 bg-slate-950/70 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="glass-card bg-white dark:bg-slate-950 rounded-2xl p-6 sm:p-8 max-w-lg w-full border border-gray-300 dark:border-slate-850 shadow-2xl relative text-left">
+      
+      <!-- Close trigger -->
+      <button onclick="closeApplyModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 dark:hover:text-white text-md p-1.5">✕</button>
+
+      <!-- Headings -->
+      <div class="pb-3 border-b border-gray-150 dark:border-slate-805">
+        <span class="font-mono text-[9px] uppercase tracking-wide text-blue-600 dark:text-blue-400 font-bold">Security Credentials Check Vault</span>
+        <h3 id="modal-heading-title" class="text-base sm:text-lg font-bold text-gray-900 dark:text-white leading-snug">Quick Application</h3>
+        <p id="modal-heading-org" class="text-xs text-blue-600 dark:text-blue-400 font-mono mt-0.5">NovaSphere solutions</p>
+      </div>
+
+      <div id="apply-form-view" class="space-y-4 pt-4">
+        <form id="opportunity-apply-form" onsubmit="handleApplySubmit(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Your Full Name</label>
+              <input type="text" id="apply-name" required placeholder="Elena Vance" class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3 py-2 rounded-lg border border-gray-250 dark:border-slate-800 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="space-y-1">
+              <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Your Primary Email</label>
+              <input type="email" id="apply-email" required placeholder="elena@university.edu" class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3 py-2 rounded-lg border border-gray-250 dark:border-slate-800 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500">
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Portfolio URL or GitHub Profile</label>
+            <input type="url" id="apply-portfolio" required placeholder="https://github.com/my-profile" class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3 py-2 rounded-lg border border-gray-250 dark:border-slate-800 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500">
+          </div>
+
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-gray-700 dark:text-gray-300">Why are you excited for this venture?</label>
+            <textarea id="apply-notes" rows="3" placeholder="State your technical background or impact objectives brief..." class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3 py-2 rounded-lg border border-gray-250 dark:border-slate-800 text-gray-900 dark:text-white focus:outline-none focus:border-blue-500"></textarea>
+          </div>
+
+          <!-- Sequential validation status checking panel -->
+          <div id="modal-feedback-pane" class="hidden p-3 bg-blue-500/10 text-[10px] text-blue-400 font-mono rounded-lg space-x-2 animate-pulse flex items-center border border-blue-500/15">
+            <span class="inline-block h-3.5 w-3.5 rounded-full border border-blue-400 border-t-transparent animate-spin"></span>
+            <span id="modal-feedback-msg">Analyzing credential telemetry lines...</span>
+          </div>
+
+          <div class="pt-3 border-t border-gray-150 dark:border-slate-800 flex justify-end space-x-2">
+            <button type="button" onclick="closeApplyModal()" class="px-4.5 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-slate-900 dark:hover:bg-slate-800 text-xs font-semibold rounded-lg text-gray-700 dark:text-gray-300 cursor-pointer">Cancel</button>
+            <button type="submit" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg cursor-pointer">Transmit Credentials</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Success Receipt view -->
+      <div id="apply-success-view" class="hidden text-center py-6 space-y-4">
+        <p class="text-4xl text-center">🎉</p>
+        <div>
+          <h4 class="text-sm font-bold text-gray-900 dark:text-white">Credentials Log Verification Accepted!</h4>
+          <p id="success-receipt-p" class="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-sm mx-auto leading-normal">
+            Your application package has been authorized securely.
+          </p>
+        </div>
+        <div class="bg-gray-50 dark:bg-slate-900 p-3 rounded-lg border border-gray-150 dark:border-slate-800 text-[11px] text-gray-600 dark:text-gray-300">
+          Evaluated profile compatibility: <strong class="text-emerald-500 font-bold">96.8%</strong>. Pre-approval flagged with highest priority.
+        </div>
+        <button onclick="closeApplyModal()" class="px-6 py-2 bg-blue-600 hover:bg-blue-705 text-white font-bold text-xs rounded-lg cursor-pointer">Close Portal Board</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Shared Mentorship Confirmation Drawer -->
+  <div id="mentor-modal" class="fixed inset-0 z-50 bg-slate-950/70 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="glass-card bg-white dark:bg-slate-950 rounded-2xl p-6 max-w-md w-full border border-gray-300 dark:border-slate-850 shadow-2xl relative text-left">
+      <button onclick="closeMentorModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-850 dark:hover:text-white text-sm">✕</button>
+
+      <div id="mentor-book-view" class="space-y-4">
+        <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white flex items-center space-x-1.5 leading-snug">
+          <span>Confirm Your Mentorship Sync</span>
+        </h3>
+        <p class="text-xs text-gray-500">You are about to book a direct 45-minute virtual sync session. All costs fully sponsored matching Gen-Z.</p>
+        
+        <div class="bg-gray-50 dark:bg-slate-900 p-4 rounded-xl border border-gray-150 dark:border-slate-800 space-y-2 text-xs">
+          <div class="flex justify-between"><span>Advisor:</span><strong id="m-modal-name" class="text-gray-900 dark:text-white">Dr. Evelyn Martinez</strong></div>
+          <div class="flex justify-between"><span>Timeslot selected:</span><strong id="m-modal-slot" class="text-blue-600 dark:text-blue-400">Mon 4:00 PM</strong></div>
+          <div class="flex justify-between"><span>Duration:</span><strong>45-Min Call</strong></div>
+          <div class="flex justify-between"><span>Evaluation rate:</span><strong class="text-emerald-500">Free / Certified placement</strong></div>
+        </div>
+
+        <div id="m-modal-feedback-pane" class="hidden p-3 bg-blue-500/10 text-[10px] text-blue-400 font-mono rounded-lg flex items-center space-x-2 animate-pulse">
+          <span class="inline-block h-3.5 w-3.5 rounded-full border border-blue-400 border-t-transparent animate-spin"></span>
+          <span>Writing event descriptors to calendar indexes...</span>
+        </div>
+
+        <div class="pt-3 border-t border-gray-200 dark:border-slate-810 flex justify-end space-x-2">
+          <button type="button" onclick="closeMentorModal()" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-slate-900 text-xs font-semibold rounded-lg text-gray-700 dark:text-gray-300 cursor-pointer">Cancel</button>
+          <button type="button" onclick="confirmMentorBooking()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg cursor-pointer">Confirm Sync</button>
+        </div>
+      </div>
+
+      <div id="mentor-success-view" class="hidden text-center py-6 space-y-4">
+        <p class="text-4xl text-center">📅</p>
+        <h4 class="text-sm font-bold text-gray-900 dark:text-white">Sync Confirmed with <span id="success-m-name" class="text-blue-600">Mentor</span>!</h4>
+        <p class="text-xs text-gray-500 max-w-xs mx-auto leading-normal">
+          An automated invitation has been processed. Share the credentials line below with your team:
+        </p>
+        <div class="bg-gray-50 dark:bg-slate-900 p-3 rounded-lg border border-gray-150 dark:border-slate-800 text-left space-y-1 text-[11px]">
+          <span class="text-gray-400 uppercase text-[8px] font-bold block">Secure Video Link Room</span>
+          <div class="flex justify-between items-center">
+            <span id="success-m-meeturl" class="font-mono text-blue-500 select-all tracking-tight font-semibold">https://meet.google.com/sb-eval</span>
+            <span class="bg-emerald-500 text-white font-bold text-[9px] px-1.5 py-0.5 rounded uppercase">Encrypted</span>
+          </div>
+        </div>
+        <button onclick="closeMentorModal()" class="px-6 py-2 bg-blue-600 text-white font-bold text-xs rounded-lg cursor-pointer mt-2">Close Scheduler</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="py-16 bg-gray-50 dark:bg-slate-950 text-left border-y border-gray-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider block mb-1">Success reviews</span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Endorsed Globally by Student & NGO Nodes</h2>
+      </div>
+
+      <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- JS builds content -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Comparison -->
+  <section id="pricing" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 scroll-mt-6 text-left">
+    <div class="max-w-2xl mb-12">
+      <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider block mb-1 font-bold">Comparative Tiers</span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Fair, Action-Based Membership Structures</h2>
+      <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">Our platform runs free of charge for student builders sponsored by top organizations.</p>
+    </div>
+
+    <div id="pricing-grid" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Injected dynamically -->
+    </div>
+  </section>
+
+  <!-- FAQ Section (Accordions) -->
+  <section id="faq" class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-left scroll-mt-6">
+    <div class="max-w-2xl mb-10">
+      <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider block mb-1">Knowledge board</span>
+      <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Frequently Answered Queries</h2>
+    </div>
+
+    <div id="faq-accordions-group" class="space-y-3.5">
+      <!-- Generated dynamically -->
+    </div>
+  </section>
+
+  <!-- Partnerships Form (Contact Us) -->
+  <section id="contact" class="py-16 bg-white dark:bg-slate-900 border-t border-b border-gray-150 dark:border-slate-800 scroll-mt-6 text-left">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+        
+        <div class="col-span-1 lg:col-span-5 flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <span class="font-mono text-xs text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider block">Office direct</span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+              Connect to Build<br> <span class="text-blue-600 dark:text-blue-400">Custom Pathways</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-505 dark:text-gray-400">
+              Have advanced questions relating to customized university course credits, environmental social audit programs, or corporate cohort integrations? Get in touch immediately.
+            </p>
+          </div>
+
+          <!-- Direct markers -->
+          <div class="space-y-4 text-xs">
+            <div class="flex items-center space-x-3">
+              <span class="text-blue-600 font-bold">✉</span>
+              <div>
+                <h4 class="font-bold text-gray-900 dark:text-white">General Direct Help Desk</h4>
+                <p class="font-mono text-blue-500">connect@skillbridge.ai</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-blue-600 font-bold">☎</span>
+              <div>
+                <h4 class="font-bold text-gray-900 dark:text-white">Corporate Support Line</h4>
+                <p class="font-mono text-blue-500">+1 (800) 555-BRIDGE</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-3">
+              <span class="text-blue-600 font-bold">📍</span>
+              <div>
+                <h4 class="font-bold text-gray-900 dark:text-white">Pacific Headquarters</h4>
+                <p class="text-gray-500 dark:text-gray-450">750 Battery St, San Francisco, CA 94111</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-gray-150 dark:border-slate-800 font-mono text-[9px] text-gray-400 flex items-center space-x-1.5">
+            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Current SLA response timeline: <strong class="text-gray-900 dark:text-white">&lt; 15 minutes</strong></span>
+          </div>
+        </div>
+
+        <div class="col-span-1 lg:col-span-12 lg:col-span-7">
+          <div class="glass-card rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-slate-800 shadow-md">
+            
+            <div id="contact-form-pane">
+              <form id="contact-office-form" onsubmit="handleContactInquiry(event)" class="space-y-4.5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="space-y-1">
+                    <label class="text-xs font-semibold text-gray-700 dark:text-gray-350 block">Your Full Name</label>
+                    <input type="text" id="contact-name" required placeholder="Marcus Finch" class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3.5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-800 text-gray-905 dark:text-white focus:outline-none focus:border-blue-500">
+                  </div>
+                  <div class="space-y-1 block">
+                    <label class="text-xs font-semibold text-gray-700 dark:text-gray-355 block">Your Email Address</label>
+                    <input type="email" id="contact-email" required placeholder="marcus@university.edu" class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3.5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-800 text-gray-905 dark:text-white focus:outline-none focus:border-blue-500">
+                  </div>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-gray-700 dark:text-gray-350 block">Inquiry Stream Category</label>
+                  <select id="contact-category" class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3.5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-800 text-gray-805 dark:text-white focus:outline-none focus:border-blue-500 cursor-pointer">
+                    <option value="General">General Questions / Technical Desk</option>
+                    <option value="NGO">Non-Profit Onboarding Verification</option>
+                    <option value="Startup">Corporate Recruiter Placement Credits</option>
+                    <option value="Mentor">Expert Sponsoring Signup Registration</option>
+                  </select>
+                </div>
+
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-gray-700 dark:text-gray-350 block">Message Details</label>
+                  <textarea id="contact-message" required rows="3" placeholder="State your customized specifications or details here..." class="w-full bg-gray-50 dark:bg-slate-900 text-xs px-3.5 py-2.5 rounded-lg border border-gray-200 dark:border-slate-800 text-gray-905 dark:text-white focus:outline-none focus:border-blue-500"></textarea>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl cursor-pointer">Transmit Inquiry</button>
+                  <span id="contact-feedback" class="hidden text-[10px] font-mono text-blue-500 animate-pulse">Publishing pipeline event...</span>
+                </div>
+              </form>
+            </div>
+
+            <!-- CustomReceipt response view -->
+            <div id="contact-receipt-pane" class="hidden text-center py-6 space-y-4">
+              <p class="text-4xl text-center">✓</p>
+              <h4 class="text-sm font-bold text-gray-900 dark:text-white">Partner Inquiry successfully logged!</h4>
+              <p id="contact-receipt-text" class="text-xs text-gray-500 max-w-md mx-auto leading-normal">
+                A regional coordinator has been assigned.
+              </p>
+              <div class="bg-gray-50 dark:bg-slate-950 p-3.5 rounded-xl border border-gray-150 dark:border-slate-800 text-left font-mono text-[9px] space-y-1 tracking-tight">
+                <span class="text-blue-500 font-bold block mb-0.5">MEMBER QUEUE DIRECT RECORD:</span>
+                <p>Telemetry Packet: Verified direct transmission stream</p>
+                <p id="contact-receipt-id">Inquiry ID: #30291</p>
+              </div>
+              <button onclick="resetContactForm()" class="px-5 py-2 hover:bg-gray-100 dark:hover:bg-slate-800 border dark:border-slate-800 text-xs text-gray-700 dark:text-gray-350 rounded-xl cursor-pointer">Transmit alternate inquiry</button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer Layout -->
+  <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-12 text-left relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+      
+      <div class="col-span-1 md:col-span-4 space-y-4">
+        <div class="flex items-center space-x-2.5">
+          <div class="bg-blue-605 text-white bg-blue-600 rounded-lg p-1.5 flex items-center justify-center">
+            📄
+          </div>
+          <span class="font-bold text-base text-white">SkillBridge AI</span>
+        </div>
+        <p class="text-xs text-slate-400 leading-relaxed max-w-xs">
+          Empowering modern builders. Helping students bypass basic theoretical curriculum and achieve verified, certified work records with non-profits and high-growth industry networks.
+        </p>
+        <p class="text-[10px] text-gray-500 font-mono">© 2026 SkillBridge AI. All digital rights reserved.</p>
+      </div>
+
+      <div class="col-span-1 md:col-span-2 space-y-2">
+        <h4 class="font-mono text-[10px] uppercase font-bold text-slate-205 tracking-wider text-white">Navigation</h4>
+        <ul class="space-y-1.5 text-xs">
+          <li><a href="#about" class="hover:text-white transition-colors text-[11px]">Platform About</a></li>
+          <li><a href="#features" class="hover:text-white transition-colors text-[11px]">Pillar Features</a></li>
+          <li><a href="#opportunities" class="hover:text-white transition-colors text-[11px]">Opportunities Board</a></li>
+          <li><a href="#mentors" class="hover:text-white transition-colors text-[11px]">Mentor Directory</a></li>
+        </ul>
+      </div>
+
+      <div class="col-span-1 md:col-span-2 space-y-2">
+        <h4 class="font-mono text-[10px] uppercase font-bold text-slate-205 tracking-wider text-white">Enterprise</h4>
+        <ul class="space-y-1.5 text-xs">
+          <li><a href="#pricing" class="hover:text-white transition-colors text-[11px]">Pricing Tiers</a></li>
+          <li><span class="text-slate-650 text-[11px]">SOC2 Secure Register</span></li>
+          <li><span class="text-slate-650 text-[11px]">Terms of Use</span></li>
+          <li><span class="text-slate-650 text-[11px]">Privacy Rights</span></li>
+        </ul>
+      </div>
+
+      <!-- Footer Newsletter -->
+      <div class="col-span-1 md:col-span-4 space-y-3">
+        <h4 class="font-mono text-[10px] uppercase font-bold text-slate-205 tracking-wider text-white">Subscribe to Cohort Reports</h4>
+        <p class="text-xs text-slate-400 leading-relaxed">Join over 8,400+ students receiving bi-weekly reports on matching metrics and corporate placements.</p>
+        
+        <div id="newsletter-form-pane">
+          <form id="newsletter-form" onsubmit="handleNewsletter(event)" class="flex gap-1.5">
+            <input type="email" id="news-email" required placeholder="builder@university.edu" class="w-full bg-slate-950 text-xs px-3 py-2 rounded-lg border border-slate-800 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer">Join</button>
+          </form>
+        </div>
+        <div id="newsletter-success" class="hidden bg-slate-950 p-2.5 rounded-lg border border-emerald-500/25 flex items-center space-x-2">
+          <span class="text-emerald-500 text-xs font-bold font-sans">✓ Verified:</span>
+          <span id="news-verified-tag" class="text-[10px] font-mono text-slate-400 select-all leading-none">builder@university.edu</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Unified Application Core JavaScript State Machine -->
+  <script type="text/javascript">
+    // Core Application Data Definitions
+    const matchSimulations = [
+      { id: 'm-1', nameA: 'Maya Lin (Student)', roleA: 'React Developer', nameB: 'GreenEarth (NGO)', roleB: 'Carbon calculator App', action: 'evaluating student portfolio' },
+      { id: 'm-2', nameA: 'Arjun Das (Student)', roleA: 'AI Prompt Builder', nameB: 'DeepMind Mentor Sync', roleB: '1:1 Agent Policy Sync', action: 'checking parameter structures' },
+      { id: 'm-3', nameA: 'Jessica Wu (Student)', roleA: 'UX Mobile Designer', nameB: 'NovaSphere AI (Startup)', roleB: 'Fintech wireframing', action: 'compiling milestone scores' }
+    ];
+
+    const opportunitiesData = [
+      { id: 'opp-1', title: 'AI Engineering & Prompt Intern', organization: 'NovaSphere Solutions', type: 'internship', category: 'AI & Research', description: 'Work directly with researcher networks to build high-performance prompt indices, evaluate agentic chains, and optimize telemetry benchmarks.', stipend: '$1,800/mo + equity', tags: ['Gemini SDK', 'TypeScript', 'Vector DB'], duration: '3 Months', location: 'Remote', score: 92 },
+      { id: 'opp-2', title: 'NGO Carbon App Web Lead', organization: 'GreenEarth Alliance', type: 'volunteering', category: 'NGO', description: 'Re-engineer accessibility features and dynamic charting panels for the global climate emission indicator platform.', stipend: 'Volunteer Cert / Badges', tags: ['React', 'D3.js', 'TailwindCSS'], duration: '4 Weeks', location: 'Remote', score: 96 },
+      { id: 'opp-3', title: 'B2B SaaS Growth Copywriter', organization: 'ScribeFlow AI', type: 'project', category: 'Marketing', description: 'Map search engines semantic queries, write high-conversion copy sequences, and handle ProductHunt launch registries.', stipend: '$1,200 project bounty', tags: ['SEO', 'Analytics', 'Conversion'], duration: '6 Weeks', location: 'Remote (London)', score: 88 },
+      { id: 'opp-4', title: 'UI/UX Mobile Product Designer', organization: 'VeloPay Fintech', type: 'internship', category: 'Design', description: 'Design personal finance layout boards, organize atomic components, and organize 3 distinct rounds of user testing cohorts.', stipend: '$2,200/mo', tags: ['Figma', 'Prototyping', 'User Testing'], duration: '6 Months', location: 'New York (Hybrid)', score: 94 },
+      { id: 'opp-5', title: 'Sustainable Energy Analyst', organization: 'EcoTrace NGO', type: 'volunteering', category: 'NGO', description: 'Audit solar consumption logs and calculate offset parameters to compile reports requested by organic farm networks.', stipend: 'Executive Cert / reference', tags: ['Data Viz', 'Python', 'Pandas'], duration: '8 Weeks', location: 'Remote', score: 98 },
+      { id: 'opp-6', title: 'Web3 Passwordless Auth Builder', organization: 'AetherChain Lab', type: 'project', category: 'Tech', description: 'Create next-generation passwordless credential authorization workflows using smart key telemetry loops.', stipend: '$2,500 bounty', tags: ['Rust', 'Cryptology', 'Tauri'], duration: '5 Weeks', location: 'Singapore', score: 91 }
+    ];
+
+    const mentorsData = [
+      { id: 'mentor-1', name: 'Dr. Evelyn Martinez', role: 'Principal Agent Researcher', company: 'Google DeepMind', bio: 'Pioneered core NLP heuristics. Enjoys helping students navigate advanced LLM and agent architecture.', rating: 4.9, sessions: 142, skills: ['AI/ML Architecture', 'Python', 'Career Path'], slots: ['Mon 4:00 PM', 'Thu 10:00 AM'], avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150&h=150' },
+      { id: 'mentor-2', name: 'Kenji Takahashi', role: 'Co-Founder & CTO', company: 'Synthetix Tech', bio: 'Grew university project to Series A in 18 months. Ready to guide on scaling tech products and startup operations.', rating: 5.0, sessions: 87, skills: ['SaaS Growth', 'System Scaling', 'Fundraising'], slots: ['Tue 9:00 AM', 'Wed 5:00 PM'], avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150' },
+      { id: 'mentor-3', name: 'Sarah Jenkins', role: 'VP of Digital Advocacy', company: 'Humane Web Org', bio: '12 years directing NGO products. Mentors aspiring designers who want to achieve high social impact solutions.', rating: 4.8, sessions: 110, skills: ['NGO Growth', 'Design Ethics', 'Brand Strategy'], slots: ['Wed 3:00 PM', 'Fri 11:30 AM'], avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150&h=150' }
+    ];
+
+    const testimonialsData = [
+      { quote: "SkillBridge transformed our venture. Within 48 hours of posting, we onboarded three hyper-motivated interns who developed our prompt framework.", author: "Marcus Vance", role: "CEO & Founder", org: "NovaSphere Solutions" },
+      { quote: "Through SkillBridge, I gained the real-world engineering project experience I could never get in class. I worked with GreenEarth, which got me my role at Stripe!", author: "Li Wei", role: "Full Stack Engineer", org: "Stripe Alumnus" },
+      { quote: "As a budget-constrained NGO, finding high-potential web engineers was extremely hard. SkillBridge matches completed our intake pages in two weeks.", author: "Amara Okafor", role: "Director", org: "GreenEarth Alliance" },
+      { quote: "The pre-vetted matching index guarantees candidates are ready to contribute from day one. Phenomenal experience syncing calendars.", author: "Dr. Evelyn Martinez", role: "Principal Researcher", org: "DeepMind / Mentor" }
+    ];
+
+    const pricingData = [
+      { name: "Student Pro", price: "0", desc: "For university and creative builders pursuing high-impact project records.", features: ["Apply to unlimited NGO opportunities", "Launch unlimited AI pathfinder roadmaps", "Book 2 sponsored coordinator sessions / month", "Verified public resume badging index"], popular: false },
+      { name: "Partner Recruiter", price: "49", desc: "For early stage startups, research groups, and non-profit organizations.", features: ["Post up to 5 concurrent projects", "Automatic compatibility matching metrics", "Direct email and secure Slack channels", "Verified badge generation", "Regional student cohort telemetry"], popular: true },
+      { name: "Enterprise CSR", price: "199", desc: "For university networks, corporate social responsibility divisions, and agencies.", features: ["Uncapped postings & candidate analysis", "Full developer profile API exports", "Custom university white-label panels", "Dedicated regional success agent", "End-to-end impact score auditing audits"], popular: false }
+    ];
+
+    const faqsData = [
+      { id: -1, question: "How does the AI Career Pathfinder coordinate matching?", answer: "Our system evaluates your career focus parameters against the specific technical tags found inside active partner opportunities. It outputs high-fidelity actionable roadmaps with curating matching slots." },
+      { id: -2, question: "Am I guaranteed payment for internships and projects?", answer: "Opportunities are labeled clearly. Voluntary placements (e.g., GreenEarth Alliance NGO) focus strictly on social impact (providing badges and certificates), while corporate teams offer monthly stipends, milestones bounds, or referral vouchers." },
+      { id: -3, question: "How does our team verify a student's milestone completion?", answer: "Once the partner organization checks off the deliverables, a digital record milestone token is published to your dashboard. This verifiable metadata badge coordinates with LinkedIn, GitHub, or PDF output exports." },
+      { id: -4, question: "How do 1:1 mentorship scheduling requests work?", answer: "Simply select any available slot inside the candidate calendar directory. A sync calendar verification modal launches instantly. Syncing generates safe, encrypted classroom credentials URLs seamlessly." }
+    ];
+
+    const pathways = {
+      ai: {
+        title: "Assistant AI Specialist Pathway",
+        sub: "Structure direct competency in artificial intelligence and agent evaluation.",
+        milestones: [
+          { step: "Milestone 1", task: "Master prompting structures and baseline token parameters.", reward: "Badge: Prompt Analyst" },
+          { step: "Milestone 2", task: "Build a server-side agentic routing workspace utilizing Gemini SDK.", reward: "Token: AI Builder" },
+          { step: "Milestone 3", task: "Review system telemetry metrics with DeepMind research advisor.", reward: "Credential: Expert Reference" }
+        ],
+        suggestedMentor: "Dr. Evelyn Martinez",
+        suggestedOppTitle: "AI Engineering & Prompt Intern"
+      },
+      design: {
+        title: "Product Design Social Impact Pathway",
+        sub: "Create wireframe accessibility components for sustainable advocacy targets.",
+        milestones: [
+          { step: "Milestone 1", task: "Model atomic system mockups inside Figma and run 3 trials.", reward: "Badge: UX Analyst" },
+          { step: "Milestone 2", task: "Revamp client registration tables for GreenEarth NGO.", reward: "Token: Eco Advocate" },
+          { step: "Milestone 3", task: "Complete review session with Humane VP Sarah Jenkins.", reward: "Credential: Design Reference" }
+        ],
+        suggestedMentor: "Sarah Jenkins",
+        suggestedOppTitle: "NGO Carbon App Web Lead"
+      },
+      growth: {
+        title: "Growth Marketer & SaaS SaaS Writing Pathway",
+        sub: "Deploy digital metric funnels to increase organic user streams.",
+        milestones: [
+          { step: "Milestone 1", task: "Configure semantic SEO keyword plans and analyze patterns.", reward: "Badge: SEO master" },
+          { step: "Milestone 2", task: "Coordinate campaign copywriting structures for ScribeFlow launch.", reward: "Token: Growth Hacker" },
+          { step: "Milestone 3", task: "Claim scaling review feedback with Kenji Takahashi.", reward: "Credential: Founder Reference" }
+        ],
+        suggestedMentor: "Kenji Takahashi",
+        suggestedOppTitle: "B2B SaaS Growth Copywriter"
+      }
+    };
+
+    // Application State Variables
+    let currentPledgedHours = 15240;
+    let appliedOppIds = [];
+    let currentOppTypeFilter = 'all';
+    let selectedPathfinderTrack = 'ai';
+    let faqExpandedId = -1;
+    let selectedMentorBooking = null;
+    let selectedOpportunityApplying = null;
+
+    // Load states on boot
+    window.addEventListener('DOMContentLoaded', () => {
+      // Local storage setup
+      const savedTheme = localStorage.getItem('sb-theme-standalone');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('sun-icon').classList.remove('hidden');
+        document.getElementById('moon-icon').classList.add('hidden');
+      }
+
+      const savedHours = localStorage.getItem('sb-hours-standalone');
+      if (savedHours) {
+        currentPledgedHours = parseInt(savedHours);
+      }
+
+      const savedApplies = localStorage.getItem('sb-applies-standalone');
+      if (savedApplies) {
+        appliedOppIds = JSON.parse(savedApplies);
+      }
+
+      // Initialize UI Element rendering
+      updateDynamicDashboardNumbers();
+      initAutonomousRotation();
+      renderOpportunitiesList();
+      renderMentorsList();
+      renderTestimonials();
+      renderPricingList();
+      renderFAQAccordions();
+
+      // Setup forms listeners
+      document.getElementById('pledge-form').addEventListener('submit', handlePledgeSubmit);
+      document.getElementById('theme-toggle-btn').addEventListener('click', toggleDarkModeState);
+    });
+
+    // Dark Mode Controller
+    function toggleDarkModeState() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('sb-theme-standalone', isDark ? 'dark' : 'light');
+      
+      const sun = document.getElementById('sun-icon');
+      const moon = document.getElementById('moon-icon');
+      
+      if (isDark) {
+        sun.classList.remove('hidden');
+        moon.classList.add('hidden');
+      } else {
+        sun.classList.add('hidden');
+        moon.classList.remove('hidden');
+      }
+      showToastNotification("Theme adjusted successfully");
+    }
+
+    // Toast Alert
+    function showToastNotification(message, icon = "✓") {
+      const toast = document.getElementById('toast-notification');
+      document.getElementById('toast-message').innerText = message;
+      document.getElementById('toast-icon').innerText = icon;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+
+    // Dynamic state synchronizer
+    function updateDynamicDashboardNumbers() {
+      // Set values locally in inputs/labels
+      document.getElementById('navbar-hours-badge').innerText = currentPledgedHours.toLocaleString();
+      
+      // Calculate dynamic stats
+      const studentsMetric = 24850 + (currentPledgedHours - 15240) * 3;
+      const projectsMetric = 1420 + (currentPledgedHours - 15240) + appliedOppIds.length;
+      const ngosMetric = 380 + Math.floor((currentPledgedHours - 15240) / 5);
+      
+      document.getElementById('stat-students').innerText = studentsMetric.toLocaleString();
+      document.getElementById('stat-projects').innerText = projectsMetric.toLocaleString();
+      document.getElementById('stat-ngos').innerText = ngosMetric.toLocaleString();
+      document.getElementById('stat-mentors').innerText = "640"; // Static base
+      
+      // Persist values
+      localStorage.setItem('sb-hours-standalone', currentPledgedHours.toString());
+      localStorage.setItem('sb-applies-standalone', JSON.stringify(appliedOppIds));
+    }
+
+    // Pledge Submit Handler
+    function handlePledgeSubmit(event) {
+      event.preventDefault();
+      const inputEl = document.getElementById('pledge-hours-input');
+      const addedValue = parseInt(inputEl.value) || 0;
+      
+      if (addedValue > 0) {
+        currentPledgedHours += addedValue;
+        updateDynamicDashboardNumbers();
+        showToastNotification(`Successfully pledged ${addedValue} volunteer hours!`);
+        inputEl.value = "5"; // Reset default
+      }
+    }
+
+    // Unified Rotator Matching Pane simulator
+    let activeMatchIdx = 0;
+    function initAutonomousRotation() {
+      const pane = document.getElementById('match-pane');
+      
+      const updatePaneHtml = () => {
+        const item = matchSimulations[activeMatchIdx];
+        pane.style.opacity = '0';
+        pane.style.transform = 'translateY(4px)';
+        
+        setTimeout(() => {
+          pane.innerHTML = `
+            <div class="space-y-1">
+              <span class="text-[9px] text-gray-500 uppercase tracking-widest">Running evaluations telemetry</span>
+              <p class="text-blue-400 font-bold">&#9654; Match simulation successfully computed [ID: ${item.id}]</p>
+            </div>
+            <div class="flex items-center justify-between border border-slate-900 bg-slate-900/95 rounded-lg p-2.5 my-1.5">
+              <div>
+                <span class="text-white font-bold block text-[11px]">${item.nameA}</span>
+                <span class="text-[9px] text-slate-500 block">${item.roleA}</span>
+              </div>
+              <div class="text-center px-1 text-[8px] text-emerald-400 font-bold border border-emerald-500/20 bg-emerald-500/5 rounded">
+                Matched!
+              </div>
+              <div class="text-right">
+                <span class="text-white font-bold block text-[11px]">${item.nameB}</span>
+                <span class="text-[9px] text-slate-500 block">${item.roleB}</span>
+              </div>
+            </div>
+            <div class="flex justify-between items-center text-[9px] text-slate-500">
+              <span class="animate-pulse flex items-center">● status: ${item.action}</span>
+              <span>Efficiency index: <strong class="text-emerald-500">98.4%</strong></span>
+            </div>
+          `;
+          pane.style.opacity = '1';
+          pane.style.transform = 'translateY(0)';
+        }, 150);
+
+        activeMatchIdx = (activeMatchIdx + 1) % matchSimulations.length;
+      };
+
+      updatePaneHtml();
+      setInterval(updatePaneHtml, 4500);
+    }
+
+    // Pathfinder Select Change controller
+    function selectPathfinderTrack(trackKey) {
+      selectedPathfinderTrack = trackKey;
+      
+      const tracks = ['ai', 'design', 'growth'];
+      tracks.forEach(t => {
+        const btn = document.getElementById(`btn-track-${t}`);
+        if (t === trackKey) {
+          btn.classList.add('border-blue-500', 'bg-blue-500/15', 'text-white');
+          btn.classList.remove('border-slate-800', 'bg-slate-900/60', 'text-gray-400');
+        } else {
+          btn.classList.remove('border-blue-500', 'bg-blue-500/15', 'text-white');
+          btn.classList.add('border-slate-800', 'bg-slate-900/60', 'text-gray-400');
+        }
+      });
+    }
+
+    // AI Pathfinder simulation runner
+    function triggerPathfinderCompute() {
+      // Set to loading
+      document.getElementById('pathfinder-default').classList.add('hidden');
+      document.getElementById('pathfinder-result').classList.add('hidden');
+      document.getElementById('pathfinder-loading').classList.remove('hidden');
+
+      const loaderText = document.getElementById('pathfinder-loader-text');
+      const messages = [
+        "Scanning profile assets database...",
+        "Evaluating technical compatibility factors...",
+        "Synthesizing customized milestones indexes...",
+        "Formulating mentor pairing advice..."
+      ];
+
+      let step = 0;
+      loaderText.innerText = messages[0];
+      
+      const interval = setInterval(() => {
+        step++;
+        if (step < messages.length) {
+          loaderText.innerText = messages[step];
+        } else {
+          clearInterval(interval);
+          renderPathfinderPathResult();
+        }
+      }, 400);
+    }
+
+    // Inject Computed milestones
+    function renderPathfinderPathResult() {
+      document.getElementById('pathfinder-loading').classList.add('hidden');
+      const resultContainer = document.getElementById('pathfinder-result');
+      resultContainer.classList.remove('hidden');
+
+      const path = pathways[selectedPathfinderTrack];
+      document.getElementById('result-title').innerText = path.title;
+      document.getElementById('result-sub').innerText = path.sub;
+      document.getElementById('result-advisor').innerText = path.suggestedMentor;
+      document.getElementById('result-alignment').innerText = path.suggestedOppTitle;
+
+      const milestonesDiv = document.getElementById('result-milestones');
+      milestonesDiv.innerHTML = path.milestones.map((m, idx) => `
+        <div onclick="toggleInteractiveCheck('milestone-chk-${selectedPathfinderTrack}-${idx}', this)" class="p-2.5 rounded-lg border border-slate-800 bg-slate-950 flex items-start space-x-2.5 cursor-pointer hover:border-slate-700 transition">
+          <input type="checkbox" id="milestone-chk-${selectedPathfinderTrack}-${idx}" class="mt-0.5 pointer-events-none rounded border-slate-705 bg-slate-900 text-blue-500 h-4 w-4">
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <span class="text-[8px] font-bold text-blue-400 uppercase font-mono">${m.step}</span>
+              <span class="text-[8px] bg-slate-900 text-emerald-400 px-1 rounded-full border border-slate-805 font-mono">${m.reward}</span>
+            </div>
+            <p class="text-xs text-white leading-snug mt-0.5">${m.task}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Interactive Checklist trigger
+    function toggleInteractiveCheck(chkId, component) {
+      const checkbox = document.getElementById(chkId);
+      checkbox.checked = !checkbox.checked;
+      
+      const p = component.querySelector('p');
+      if (checkbox.checked) {
+        component.classList.add('border-emerald-500/20', 'bg-slate-950/45');
+        p.classList.add('line-through', 'text-gray-500');
+        showToastNotification("Milestone complete! Badge saved to local resume queue.");
+      } else {
+        component.classList.remove('border-emerald-500/20', 'bg-slate-950/45');
+        p.classList.remove('line-through', 'text-gray-500');
+      }
+    }
+
+    // Opportunities Render & Filters
+    function setOppTypeTab(tabValue) {
+      currentOppTypeFilter = tabValue;
+      
+      const tabs = { all: 'btn-tab-all', internship: 'btn-tab-int', volunteering: 'btn-tab-vol', project: 'btn-tab-proj' };
+      Object.keys(tabs).forEach(t => {
+        const btn = document.getElementById(tabs[t]);
+        if (t === tabValue) {
+          btn.className = "flex-1 py-1 px-1.5 rounded text-blue-600 dark:text-blue-400 bg-gray-100 dark:bg-slate-800 cursor-pointer";
+        } else {
+          btn.className = "flex-1 py-1 px-1.5 rounded text-gray-500 cursor-pointer";
+        }
+      });
+      renderOpportunitiesList();
+    }
+
+    function handleFilterChange() {
+      renderOpportunitiesList();
+    }
+
+    function renderOpportunitiesList() {
+      const parent = document.getElementById('opps-grid-container');
+      const searchQuery = document.getElementById('opps-search').value.toLowerCase();
+      const catVal = document.getElementById('opps-category').value;
+
+      const filtered = opportunitiesData.filter(opp => {
+        // Tab type matching
+        if (currentOppTypeFilter !== 'all' && opp.type !== currentOppTypeFilter) return false;
+        
+        // Category matching
+        if (catVal !== 'All' && opp.category !== catVal) return false;
+
+        // Search match
+        if (searchQuery.trim() !== '') {
+          const matchTitle = opp.title.toLowerCase().includes(searchQuery);
+          const matchOrg = opp.organization.toLowerCase().includes(searchQuery);
+          const matchDesc = opp.description.toLowerCase().includes(searchQuery);
+          const matchTags = opp.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+          return matchTitle || matchOrg || matchDesc || matchTags;
+        }
+        return true;
+      });
+
+      // Update count
+      document.getElementById('listings-found-count').innerText = `${filtered.length} listing${filtered.length === 1 ? '' : 's'} found`;
+
+      if (filtered.length === 0) {
+        parent.innerHTML = `
+          <div class="col-span-full border border-dashed border-gray-300 dark:border-slate-800 rounded-2xl p-12 text-center text-gray-500">
+            <p class="text-3xl mb-2">🔖</p>
+            <p class="text-sm font-semibold text-gray-700 dark:text-gray-300">No projects or internships matched criteria</p>
+            <p class="text-xs text-gray-400 mt-1 max-w-sm mx-auto">Modify your search query string or try custom focus categories.</p>
+          </div>
+        `;
+        return;
+      }
+
+      parent.innerHTML = filtered.map(opp => {
+        const applied = appliedOppIds.includes(opp.id);
+        const actionButton = applied 
+          ? `<span class="inline-flex items-center space-x-1 font-mono text-[11px] font-bold text-emerald-650 dark:text-emerald-450 bg-emerald-105 bg-emerald-500/10 py-1 px-3 rounded-lg border border-emerald-500/20">Applied ✅</span>`
+          : `<button onclick="openApplyModal('${opp.id}')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors cursor-pointer">Quick Apply</button>`;
+
+        return `
+          <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col justify-between hover:scale-[1.01] transition-transform">
+            <div class="space-y-3.5">
+              <div class="flex items-center justify-between text-[10px]">
+                <span class="font-mono bg-gray-100 dark:bg-slate-950 text-gray-600 dark:text-gray-400 border border-gray-200/50 dark:border-slate-800 px-2.5 py-0.5 rounded-full font-bold uppercase">${opp.category}</span>
+                <span class="font-mono text-blue-500 uppercase font-extrabold text-[9px]">${opp.type}</span>
+              </div>
+              
+              <div>
+                <h4 class="font-bold text-gray-900 dark:text-white leading-tight text-sm">${opp.title}</h4>
+                <p class="text-blue-600 dark:text-blue-400 font-mono text-[11px] mt-0.5 font-bold">${opp.organization}</p>
+              </div>
+
+              <p class="text-xs text-gray-500 dark:text-gray-450 leading-relaxed line-clamp-3 min-h-[50px]">
+                ${opp.description}
+              </p>
+
+              <div class="pt-3 border-t border-gray-150 dark:border-slate-800/80 text-[11px] space-y-1.5 text-gray-500 dark:text-gray-400">
+                <div class="flex items-center space-x-2"><span>📍</span><span>${opp.location}</span></div>
+                <div class="flex items-center space-x-2"><span>📅</span><span>Duration: ${opp.duration}</span></div>
+                <div class="flex items-center space-x-2"><span>💳</span><strong class="text-blue-600 dark:text-blue-400">${opp.stipend}</strong></div>
+              </div>
+
+              <div class="flex flex-wrap gap-1">
+                ${opp.tags.map(t => `<span class="font-mono text-[9px] bg-blue-50 dark:bg-slate-900/50 text-blue-600 dark:text-blue-305 px-1.5 py-0.5 rounded">#${t}</span>`).join('')}
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-gray-150 dark:border-slate-800 mt-4 flex items-center justify-between">
+              <span class="text-[10px] text-gray-400">Complexity score: <strong class="text-gray-900 dark:text-white font-mono">${opp.score}</strong>/100</span>
+              ${actionButton}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Modal apply functions
+    function openApplyModal(oppId) {
+      const opp = opportunitiesData.find(o => o.id === oppId);
+      if (!opp) return;
+
+      selectedOpportunityApplying = opp;
+      document.getElementById('modal-heading-title').innerText = `Apply for ${opp.title}`;
+      document.getElementById('modal-heading-org').innerText = opp.organization;
+      
+      document.getElementById('apply-form-view').classList.remove('hidden');
+      document.getElementById('apply-success-view').classList.add('hidden');
+      document.getElementById('modal-feedback-pane').classList.add('hidden');
+      
+      // Resets input
+      document.getElementById('opportunity-apply-form').reset();
+      
+      document.getElementById('apply-modal').classList.remove('hidden');
+    }
+
+    function closeApplyModal() {
+      document.getElementById('apply-modal').classList.add('hidden');
+    }
+
+    function handleApplySubmit(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('apply-name').value;
+      const email = document.getElementById('apply-email').value;
+      
+      const feedback = document.getElementById('modal-feedback-pane');
+      const feedbackMsg = document.getElementById('modal-feedback-msg');
+      
+      feedback.classList.remove('hidden');
+      feedbackMsg.innerText = "Initiating AI credentials compliance checklist...";
+
+      setTimeout(() => {
+        feedbackMsg.innerText = "Analyzing security digital resume tokens...";
+        setTimeout(() => {
+          feedbackMsg.innerText = "Verifying telemetry portfolio compatibility metrics...";
+          setTimeout(() => {
+            // Apply complete success
+            if (selectedOpportunityApplying) {
+              appliedOppIds.push(selectedOpportunityApplying.id);
+              updateDynamicDashboardNumbers();
+              renderOpportunitiesList();
+            }
+            
+            document.getElementById('apply-form-view').classList.add('hidden');
+            document.getElementById('apply-success-view').classList.remove('hidden');
+            document.getElementById('success-receipt-p').innerHTML = `
+              Hello <strong>${name}</strong>, your credential packet has been successfully verified against target variables. <strong>${selectedOpportunityApplying.organization}</strong> recruitment managers has been updated.
+            `;
+            showToastNotification("Application package submitted and approved!", "✓");
+          }, 800);
+        }, 700);
+      }, 600);
+    }
+
+    // Render Mentors Matrix
+    function renderMentorsList() {
+      const parent = document.getElementById('mentors-grid-container');
+      
+      parent.innerHTML = mentorsData.map(m => {
+        const isAllSlotBooked = m.slots.length === 0;
+        const slotsRow = isAllSlotBooked 
+          ? `<div class="p-2 text-center text-xs text-gray-500 bg-gray-100 rounded-lg">All sessions reserved this window.</div>`
+          : `<div class="grid grid-cols-2 gap-2">${m.slots.map(s => `
+              <button onclick="openMentorBooking('${m.id}', '${s}')" class="p-2 text-left font-semibold text-[11px] bg-gray-150 dark:bg-slate-900 border border-transparent dark:border-slate-800 rounded-lg hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 truncate cursor-pointer transition">
+                📅 ${s}
+              </button>
+            `).join('')}</div>`;
+
+        return `
+          <div class="glass-card rounded-2xl p-6 border border-gray-200 dark:border-slate-800 shadow-sm flex flex-col justify-between mb-2">
+            <div class="space-y-4">
+              <div class="flex items-start space-x-3.5">
+                <img src="${m.avatar}" alt="${m.name}" referrerPolicy="no-referrer" class="h-12 w-12 rounded-xl object-cover border dark:border-slate-800">
+                <div class="text-left leading-normal">
+                  <h4 class="font-bold text-gray-901 dark:text-white text-sm">${m.name}</h4>
+                  <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold">${m.role}</p>
+                  <span class="text-[9px] text-gray-400 font-mono tracking-wide uppercase font-medium mt-0.5 block">${m.company}</span>
+                </div>
+              </div>
+
+              <p class="text-xs text-gray-500 dark:text-gray-400 min-h-[50px] italic leading-relaxed">
+                "${m.bio}"
+              </p>
+
+              <div class="flex justify-between items-center text-xs p-2 bg-gray-50 dark:bg-slate-950 rounded-lg border dark:border-slate-805">
+                <span class="text-amber-500 font-semibold flex items-center">⭐ ${m.rating.toFixed(1)} Rating</span>
+                <span class="text-gray-500"><strong class="text-gray-900 dark:text-white" id="completed-sessions-${m.id}">${m.sessions}</strong> Completed</span>
+              </div>
+
+              <div class="space-y-1">
+                <span class="font-mono text-[8px] uppercase text-gray-400 font-bold block">Key Focus Blocks</span>
+                <div class="flex flex-wrap gap-1">
+                  ${m.skills.map(sk => `<span class="text-[9px] bg-blue-100/30 dark:bg-slate-900 text-blue-650 dark:text-blue-305 px-1.5 py-0.5 rounded font-mono">${sk}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-gray-150 dark:border-slate-800 space-y-2">
+              <span class="text-[10px] font-mono text-gray-400 flex items-center gap-1">
+                <span>⚡</span> Upcoming Availabilities:
+              </span>
+              ${slotsRow}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Booking actions
+    function openMentorBooking(mentorId, slot) {
+      const mentor = mentorsData.find(m => m.id === mentorId);
+      if (!mentor) return;
+
+      selectedMentorBooking = { mentorId, slot };
+      document.getElementById('m-modal-name').innerText = mentor.name;
+      document.getElementById('m-modal-slot').innerText = slot;
+      
+      document.getElementById('mentor-book-view').classList.remove('hidden');
+      document.getElementById('mentor-success-view').classList.add('hidden');
+      document.getElementById('m-modal-feedback-pane').classList.add('hidden');
+
+      document.getElementById('mentor-modal').classList.remove('hidden');
+    }
+
+    function closeMentorModal() {
+      document.getElementById('mentor-modal').classList.add('hidden');
+    }
+
+    function confirmMentorBooking() {
+      if (!selectedMentorBooking) return;
+      const feedback = document.getElementById('m-modal-feedback-pane');
+      feedback.classList.remove('hidden');
+
+      // Find references
+      const mentor = mentorsData.find(m => m.id === selectedMentorBooking.mentorId);
+
+      setTimeout(() => {
+        // Complete transaction
+        mentor.sessions += 1;
+        // Strip booked slots so it no longer showcases in schedule directory
+        mentor.slots = mentor.slots.filter(s => s !== selectedMentorBooking.slot);
+        
+        // Update counts
+        document.getElementById(`completed-sessions-${mentor.id}`).innerText = mentor.sessions;
+        renderMentorsList(); // Re-render schedules immediately
+
+        document.getElementById('mentor-book-view').classList.add('hidden');
+        const success = document.getElementById('mentor-success-view');
+        success.classList.remove('hidden');
+        
+        document.getElementById('success-m-name').innerText = mentor.name;
+        document.getElementById('success-m-meeturl').innerText = `https://meet.google.com/sb-${mentor.id}-${Math.floor(Math.random() * 900) + 100}`;
+        showToastNotification("Mentorship scheduler reservation completed!", "📅");
+      }, 1200);
+    }
+
+    // Render Testimonials
+    function renderTestimonials() {
+      const parent = document.getElementById('testimonials-grid');
+      parent.innerHTML = testimonialsData.map(t => `
+        <div class="glass-card rounded-xl p-5 border border-gray-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <p class="text-xs sm:text-[13px] text-gray-500 dark:text-gray-350 leading-relaxed italic">
+            "${t.quote}"
+          </p>
+          <div class="pt-4 border-t border-gray-150 dark:border-slate-800 mt-4 text-left">
+            <h5 class="text-xs font-bold text-gray-901 dark:text-white">${t.author}</h5>
+            <p class="text-[10px] text-gray-450 font-mono tracking-wide mt-0.5">${t.role}</p>
+            <span class="text-[10px] text-blue-500 font-bold block">${t.org}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Pricing plans comparative board
+    function renderPricingList() {
+      const parent = document.getElementById('pricing-grid');
+      parent.innerHTML = pricingData.map(plan => {
+        const buttonCls = plan.popular 
+          ? "bg-blue-600 hover:bg-blue-700 text-white shadow shadow-blue-500/20"
+          : "bg-gray-100 hover:bg-gray-100 dark:bg-slate-900 border dark:border-slate-800 text-gray-805 dark:text-gray-200";
+
+        const accentBorder = plan.popular ? 'border-2 border-blue-500 scale-[1.01]' : 'border border-gray-200 dark:border-slate-800';
+
+        return `
+          <div class="glass-card rounded-2xl p-6 ${accentBorder} relative flex flex-col justify-between shadow-sm">
+            <div>
+              ${plan.popular ? `<span class="absolute top-0 right-5 -translate-y-1/2 bg-blue-600 text-white text-[9px] uppercase tracking-wider font-extrabold px-2.5 py-1 rounded-full">Recommended</span>` : ''}
+              
+              <div class="space-y-1 text-left">
+                <h4 class="font-bold text-sm text-gray-500 dark:text-gray-400 font-mono uppercase tracking-wide">${plan.name}</h4>
+                <div class="flex items-baseline space-x-1 pt-1">
+                  <span class="text-3xl font-extrabold text-gray-900 dark:text-white leading-none">$${plan.price}</span>
+                  <span class="text-xs text-gray-400">/mo</span>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-405 leading-relaxed pt-2">${plan.desc}</p>
+              </div>
+
+              <!-- List features -->
+              <ul class="pt-5 border-t border-gray-150 dark:border-slate-800/80 mt-5 space-y-2.5 text-xs text-left text-gray-600 dark:text-gray-300">
+                ${plan.features.map(f => `<li class="flex items-center space-x-2"><span class="text-emerald-555 text-emerald-500 font-bold text-[11px]">✓</span><span>${f}</span></li>`).join('')}
+              </ul>
+            </div>
+
+            <div class="pt-6">
+              <button onclick="handlePricingRegistration('${plan.name}')" class="w-full py-2.5 rounded-xl font-bold text-xs ${buttonCls} cursor-pointer transition-colors block text-center">
+                Launch System Portal
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function handlePricingRegistration(planName) {
+      showToastNotification(`Redirecting to portal enrollment registry for standard ${planName}...`);
+      location.hash = "#contact";
+    }
+
+    // FAQ collapsible accordions
+    function renderFAQAccordions() {
+      const parent = document.getElementById('faq-accordions-group');
+      parent.innerHTML = faqsData.map(faq => {
+        const isExpanded = faq.id === faqExpandedId;
+        const bodyCls = isExpanded ? '' : 'hidden';
+        const angleRot = isExpanded ? 'rotate-180 text-blue-500' : '';
+
+        return `
+          <div class="glass-card rounded-xl border ${isExpanded ? 'border-blue-500/30' : 'border-gray-200/65 dark:border-slate-860'} overflow-hidden transition-all">
+            <button onclick="toggleFaqIndex(${faq.id})" class="w-full p-4.5 flex items-center justify-between text-left cursor-pointer hover:bg-gray-50/50 dark:hover:bg-slate-900/30">
+              <span class="font-bold text-xs sm:text-sm text-gray-850 dark:text-white leading-snug">${faq.question}</span>
+              <span class="p-1 sm:p-1.5 rounded-lg bg-gray-100 dark:bg-slate-900 text-gray-500 transition-transform ${angleRot}">
+                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+              </span>
+            </button>
+            
+            <div class="${bodyCls} p-4.5 pt-0 border-t border-gray-100 dark:border-slate-800 text-xs sm:text-[13px] text-gray-600 dark:text-gray-400 bg-gray-50/15">
+              <p class="py-2.5 leading-relaxed">${faq.answer}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleFaqIndex(faqId) {
+      faqExpandedId = (faqExpandedId === faqId) ? -1 : faqId;
+      renderFAQAccordions();
+    }
+
+    // Newsletter Submission
+    function handleNewsletter(event) {
+      event.preventDefault();
+      const email = document.getElementById('news-email').value;
+      if (email && email.includes('@')) {
+        document.getElementById('newsletter-form-pane').classList.add('hidden');
+        const success = document.getElementById('newsletter-success');
+        success.classList.remove('hidden');
+        document.getElementById('news-verified-tag').innerText = email;
+        showToastNotification("Subscription active! Checked credentials.");
+      }
+    }
+
+    // Contact Partnerships Submit actions
+    function handleContactInquiry(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('contact-name').value;
+      const email = document.getElementById('contact-email').value;
+      const category = document.getElementById('contact-category').value;
+      const details = document.getElementById('contact-message').value;
+
+      const feedback = document.getElementById('contact-feedback');
+      feedback.classList.remove('hidden');
+
+      setTimeout(() => {
+        feedback.classList.add('hidden');
+        document.getElementById('contact-form-pane').classList.add('hidden');
+        
+        const receipt = document.getElementById('contact-receipt-pane');
+        receipt.classList.remove('hidden');
+        
+        document.getElementById('contact-receipt-text').innerHTML = `
+          Hi <strong>${name}</strong>, your query stream [Category: ${category}] is verified and dispatched directly to the SkillBridge coordination desk. We will reach back at <strong>${email}</strong> within 15 minutes.
+        `;
+        document.getElementById('contact-receipt-id').innerText = `Logged Ticket ID: #SK-${Math.floor(Math.random() * 890000) + 100000}`;
+        showToastNotification("Partnership request broadcasted!");
+      }, 1000);
+    }
+
+    function resetContactForm() {
+      document.getElementById('contact-receipt-pane').classList.add('hidden');
+      document.getElementById('contact-form-pane').classList.remove('hidden');
+      document.getElementById('contact-office-form').reset();
+    }
+  </script>
+</body>
+</html>
